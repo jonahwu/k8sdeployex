@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: webconfig
+  namespace: default
+  labels:
+    app: webconfig
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webconfig
+  template:
+    metadata:
+      labels:
+        app:  webconfig
+        group: lb
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name:  webconfig
+        # Any image is permissable as long as: 1. It serves a 404 page at /
+        # and 2. It serves 200 on a /healthz endpoint
+        image: 172.16.155.136:5000/uwebserverv6
+        env:
+          - name: SPECIAL_LEVEL_KEY
+            valueFrom:
+              configMapKeyRef:
+                name: special-config
+                key: special.how
+          - name: SPECIAL_TYPE_KEY
+            valueFrom:
+              configMapKeyRef:
+                name: special-config
+                key: special.type
+        envFrom:
+        - configMapRef:
+            name: hadoop-env
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            cpu: 10m
+            memory: 20Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi

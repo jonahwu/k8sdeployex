@@ -1,0 +1,6 @@
+kubectl create -f nl.yaml
+#store cookie
+curl -v  -c a.txt http://172.16.155.160
+#use the stored cookie
+curl -v  --cookie a.txt http://172.16.155.160
+

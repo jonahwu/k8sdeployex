@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: dsd-logrotate
+  namespace: kube-system
+spec:
+  template:
+    metadata:
+      labels:
+        app: logrotate
+    spec:
+      containers:
+      - name: logrotate
+        image: 172.16.155.136:5000/dsdlogrotate:v0.6
+        volumeMounts:
+        - mountPath: /data
+          name: log-vol
+        - mountPath: /etc/localtime
+          name: hosttime
+      volumes:
+      - name: log-vol
+        hostPath:
+          path: /var/log
+      - name: hosttime
+        hostPath:
+          path: /etc/localtime

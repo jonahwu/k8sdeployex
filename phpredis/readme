@@ -1,0 +1,29 @@
+
+
+two mentod of NodePort and Loadbalancer are the same.
+All deal with same node loadbalancer, and cannot across node.
+for exmaple nodeport is 30001 and loadbalancer is 30002(watch out it dosen't contain 30001 information).
+
+curl http://node1:30001  (if node1 have 2 pods there, it will round robin by using nodeport that is route by proxy)
+curl http://node2:30001 (the other node)
+
+curl http://node1:30002 (if we set up by loadbalncer method)
+curl http://node2:30002
+
+
+Two method are similar, but is not great solution.
+It still need more high level, such as nginx to route node1 and node2. 
+with port 30001 if use nodeport method.
+with port 30002 if use loadbalancer method.
+
+
+in loadbalancer method 
+"port": 8033,
+"targetPort": 80,
+"nodePort": 30002
+port is the clusterip's port 
+targetport is the frontend's web pod port
+nodePort is proxy aware.
+and you will not see in system.
+root@kuber:~/deploy/phpredis# netstat -atun|grep 30002
+root@kuber:~/deploy/phpredis# netstat -atun|grep 30001

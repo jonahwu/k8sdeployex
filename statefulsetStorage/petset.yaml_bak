@@ -1,0 +1,48 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: nginxstor
+spec:
+  serviceName: "nginxstor"
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginxstor
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+      containers:
+      - name: nginxstor
+        image: 172.16.155.136:5000/uwebserverv6
+        ports:
+          - containerPort: 8000
+        volumeMounts:
+          - name: db-persistent-storage
+            mountPath: /data/db
+  volumeClaimTemplates:
+  - metadata:
+      name: db-persistent-storage
+      annotations:
+        volume.beta.kubernetes.io/storage-class: anything 
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginxstor
+  labels:
+    app: nginxstor
+spec:
+  ports:
+  - port: 8000
+    name: nginxstor
+  clusterIP: None
+  selector:
+    app: nginxstor
+

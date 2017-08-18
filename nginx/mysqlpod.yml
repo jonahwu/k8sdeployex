@@ -1,0 +1,22 @@
+apiVersion: "v1"
+ kind: "Pod"
+ metadata:
+  name: "mysqlpod"
+  labels:
+    name: "db"
+  spec:
+     containers:
+       - name: "mysql"
+	 image: "registry-rhel71.kube.com:5000/ppc64le/mysql"
+	 imagePullPolicy: "IfNotPresent"
+	 env:
+	    - name: MYSQL_USER
+	      value: test
+	    - name: MYSQL_PASSWORD
+	      value: test
+	    - name: MYSQL_ROOT_PASSWORD
+	      value: password
+	    - name: MYSQL_DB
+	      value: BucketList
+	 ports:
+	   - containerPort: 3306

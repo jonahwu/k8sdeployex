@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: multiserver
+  labels:
+    name: multiserver
+spec:
+  replicas: 1
+  selector:
+    name: multiserver
+  template:
+    metadata:
+      labels:
+        name: multiserver
+    spec:
+      containers:
+      - name: pythonserver
+        image: 172.16.155.136:5000/uwebserverv6
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 8000
+      - name: phpserver
+        image: kubeguide/guestbook-php-frontend
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 80
+

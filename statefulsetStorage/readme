@@ -1,0 +1,7 @@
+we prefer use pvc, since it can be assigned while launching container.
+So we can put the three step into same yaml file, and seperate by ---.
+1. create pvc by a given name
+---
+2. create statefulset pod and with the above pvc name and with anti-affinity
+---
+3. create service ip

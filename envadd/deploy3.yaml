@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: webserver3
+  labels:
+    name: webserver3
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: webserver3
+    spec:
+      containers:
+      - name: webserver333 
+        image: 172.16.155.136:5000/uwebserverv6
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 8000

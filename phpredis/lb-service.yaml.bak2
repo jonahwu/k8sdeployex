@@ -1,0 +1,31 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "my-service"
+    },
+    "spec": {
+        "selector": {
+            "name": "frontend"
+        },
+        "ports": [
+            {
+                "protocol": "TCP",
+                "port": 8033,
+                "targetPort": 80,
+                "nodePort": 30002
+            }
+        ],
+        "clusterIP": "192.168.3.33",
+        "type": "LoadBalancer"
+    },
+    "status": {
+        "loadBalancer": {
+            "ingress": [
+                {
+                    "ip": "192.168.2.128"
+                }
+            ]
+        }
+    }
+}

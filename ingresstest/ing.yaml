@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+ name: nginx-ingress-lb-stats
+ namespace: kube-system
+ labels:
+  app: nginx-ingress-lb
+  group: lb
+  stage: kube-system
+ annotations:
+  kubernetes.io/ingress.class: nginx
+spec:
+ rules:
+ - host: aa.bb.com
+   http:
+    paths:
+    - path: /bb
+      backend:
+       serviceName: nginx-ingress-lb
+       servicePort: 18080
+ - host: bar.baz.com
+   http:
+    paths: 
+    - path: /foo
+      backend:
+       serviceName: nginx-ingress-lb
+       servicePort: 18080
