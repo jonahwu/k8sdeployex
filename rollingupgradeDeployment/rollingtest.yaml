@@ -29,6 +29,7 @@ spec:
         image: 192.168.51.130:5000/uwebserverv6
         ports:
           - containerPort: 8000
+  minReadySeconds: 5
   strategy:
     # indicate which strategy we want for rolling update
     type: RollingUpdate
